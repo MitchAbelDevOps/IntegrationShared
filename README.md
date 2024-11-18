@@ -1,0 +1,2 @@
+# IntegrationShared
+Shared resources
