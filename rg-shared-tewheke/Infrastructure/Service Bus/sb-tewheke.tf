@@ -2,30 +2,30 @@
 Existing Resources
 ***************************************************/
 data "azurerm_virtual_network" "tewheke_vnet" {
-  name                = "vnet-integration-${var.resourceSuffix}"
-  resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}"
+  name                = "vnet-integration-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
 }
 
 data "azurerm_subnet" "private_endpoint_subnet" {
-  name                 = "snet-prep-${var.resourceSuffix}"
-  resource_group_name  = "${var.networkingResourceGroupName}-${var.resourceSuffix}"
-  virtual_network_name = "vnet-integration-${var.resourceSuffix}"
+  name                 = "snet-prep-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  resource_group_name  = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  virtual_network_name = "vnet-integration-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
 }
 
 data "azurerm_private_dns_zone" "servicebus_private_dns_zone" {
   name                = "privatelink.servicebus.windows.net"
-  resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}"
+  resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
 }
 
 data "azurerm_user_assigned_identity" "servicebus_readwrite" {
-  name                = "uami-sb-readwrite-${var.resourceSuffix}"
-  resource_group_name = var.resourceGroupName
+  name                = "uami-sb-readwrite-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  resource_group_name = local.fullResourceGroupName
 }
 
 //TODO Update to the shared LAWS in the security sub when it is provisioned and network routing is in place
 data "azurerm_log_analytics_workspace" "log_analytics_workspace" {
-  name                = "log-${var.resourceSuffix}"
-  resource_group_name = var.resourceGroupName
+  name                = "log-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  resource_group_name = local.fullResourceGroupName
 }
 
 /**************************************************
@@ -33,9 +33,9 @@ New Resources
 ***************************************************/
 // Service Bus
 resource "azurerm_servicebus_namespace" "servicebus" {
-  name                = "sb-${var.resourceSuffix}"
+  name                = "sb-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   location            = var.location
-  resource_group_name = var.resourceGroupName
+  resource_group_name = local.fullResourceGroupName
   sku                 = var.serviceBusSku
   network_rule_set {
     default_action                = "deny"
@@ -47,7 +47,7 @@ resource "azurerm_servicebus_namespace" "servicebus" {
 
 // Service Bus Diagnostics
 resource "azurerm_monitor_diagnostic_setting" "servicebus_diagnostics" {
-  name                = "sb-diagnosticlog-${var.resourceSuffix}"
+  name                = "sb-diagnosticlog-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   target_resource_id = azurerm_servicebus_namespace.servicebus
 
   log_analytics_workspace_id = azurerm_log_analytics_workspace.log_analytics_workspace.id
@@ -62,9 +62,9 @@ resource "azurerm_monitor_diagnostic_setting" "servicebus_diagnostics" {
 // NOTE: Deploys in networking resource group, not the shared
 module "servicebus_private_endpoint" {
   source                         = "git@github.com:TerraformModules/PrivateEndpoints"
-  name                           = "pep-sb-${var.resourceSuffix}"
+  name                           = "pep-sb-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   location                       = var.location
-  resource_group_name            = "${var.networkingResourceGroupName}-${var.resourceSuffix}"
+  resource_group_name            = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   subnet_id                      = data.azurerm_subnet.private_endpoint_subnet.id
   private_connection_resource_id = azurerm_servicebus_namespace.servicebus.id
   is_manual_connection           = false

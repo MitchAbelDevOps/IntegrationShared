@@ -2,30 +2,30 @@
 Existing Resources
 ***************************************************/
 data "azurerm_virtual_network" "tewheke_vnet" {
-  name                = "vnet-integration-${var.resourceSuffix}"
-  resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}"
+  name                = "vnet-integration-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
 }
 
 data "azurerm_subnet" "private_endpoint_subnet" {
-  name                 = "snet-prep-${var.resourceSuffix}"
-  resource_group_name  = "${var.networkingResourceGroupName}-${var.resourceSuffix}"
-  virtual_network_name = "vnet-integration-${var.resourceSuffix}"
+  name                 = "snet-prep-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  resource_group_name  = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  virtual_network_name = "vnet-integration-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
 }
 
 data "azurerm_private_dns_zone" "keyvault_private_dns_zone" {
   name                = "privatelink.vaultcore.azure.net"
-  resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}"
+  resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
 }
 
 data "azurerm_user_assigned_identity" "keyvault_secret_reader" {
-  name                = "uami-kv-reader-${var.resourceSuffix}"
-  resource_group_name = var.resourceGroupName
+  name                = "uami-kv-reader-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  resource_group_name = local.fullResourceGroupName
 }
 
 //TODO Update to the shared LAWS in the security sub when it is provisioned and network routing is in place
 data "azurerm_log_analytics_workspace" "log_analytics_workspace" {
-  name                = "log-${var.resourceSuffix}"
-  resource_group_name = var.resourceGroupName
+  name                = "log-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  resource_group_name = local.fullResourceGroupName
 }
 
 /**************************************************
@@ -33,9 +33,9 @@ New Resources
 ***************************************************/
 // KeyVault
 resource "azurerm_key_vault" "keyvault" {
-  name                          = "kv-${var.resourceSuffix}"
+  name                          = "kv-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   location                      = var.location
-  resource_group_name           = var.resourceGroupName
+  resource_group_name           = local.fullResourceGroupName
   tenant_id                     = data.azurerm_client_config.current.tenant_id
   sku_name                      = var.keyVaultSku
   public_network_access_enabled = false
@@ -48,7 +48,7 @@ resource "azurerm_key_vault" "keyvault" {
 
 // KeyVault Diagnostics
 resource "azurerm_monitor_diagnostic_setting" "keyvault_diagnostics" {
-  name                = "kv-diagnosticlog-${var.resourceSuffix}"
+  name                = "kv-diagnosticlog-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   target_resource_id = azurerm_key_vault.keyvault
 
   log_analytics_workspace_id = azurerm_log_analytics_workspace.log_analytics_workspace.id
@@ -62,9 +62,9 @@ resource "azurerm_monitor_diagnostic_setting" "keyvault_diagnostics" {
 // NOTE: Deploys in networking resource group, not the shared
 module "keyvault_private_endpoint" {
   source                         = "git@github.com:TerraformModules/PrivateEndpoints"
-  name                           = "pep-kv-${var.resourceSuffix}"
+  name                           = "pep-kv-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   location                       = var.location
-  resource_group_name            = "${var.networkingResourceGroupName}-${var.resourceSuffix}"
+  resource_group_name            = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   subnet_id                      = data.azurerm_subnet.private_endpoint_subnet.id
   private_connection_resource_id = azurerm_key_vault.keyvault.id
   is_manual_connection           = false
