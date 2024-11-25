@@ -74,14 +74,14 @@ module "servicebus_private_endpoint" {
 }
 
 // Service Bus Data Sender role assignment for User Assigned Managed Identity
-resource "azurerm_role_assignment" "uami_role_assignment" {
+resource "azurerm_role_assignment" "uami_role_assignment_write" {
   scope                = azurerm_servicebus_namespace.servicebus.id
   role_definition_name = "Azure Service Bus Data Sender"
   principal_id         = data.azurerm_user_assigned_identity.servicebus_readwrite.principal_id
 }
 
 // Service Bus Data Receiver role assignment for User Assigned Managed Identity
-resource "azurerm_role_assignment" "uami_role_assignment" {
+resource "azurerm_role_assignment" "uami_role_assignment_read" {
   scope                = azurerm_servicebus_namespace.servicebus.id
   role_definition_name = "Azure Service Bus Data Receiver"
   principal_id         = data.azurerm_user_assigned_identity.servicebus_readwrite.principal_id
