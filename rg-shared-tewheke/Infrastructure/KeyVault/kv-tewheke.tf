@@ -61,7 +61,7 @@ resource "azurerm_monitor_diagnostic_setting" "keyvault_diagnostics" {
 // KeyVault Private Endpoint
 // NOTE: Deploys in networking resource group, not the shared
 module "keyvault_private_endpoint" {
-  source                         = "git@github.com:TerraformModules/PrivateEndpoints"
+  source                         = "github.com/MitchAbelDevOps/DevOps//TerraformModules/PrivateEndpoints"
   name                           = "pep-kv-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   location                       = var.location
   resource_group_name            = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
