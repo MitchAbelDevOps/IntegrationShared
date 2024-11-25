@@ -40,10 +40,8 @@ resource "azurerm_servicebus_namespace" "servicebus" {
   capacity                     = 1
   premium_messaging_partitions = 1
   network_rule_set {
-    # default_action                = "Deny"
     public_network_access_enabled = var.serviceBusAllowPublicAccess
-    # trusted_services_allowed      = true
-    # ip_rules                      = var.servceBusIPRules
+    trusted_services_allowed      = true
   }
 }
 
