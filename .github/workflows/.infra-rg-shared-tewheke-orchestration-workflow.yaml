@@ -1,0 +1,69 @@
+name: '.infra-rg-shared-tewheke-orchestration-workflow'
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'The environment to deploy (e.g., dev, test, prod)'
+        required: true
+        type: string
+
+jobs:
+  deploy_resource_group:
+    permissions:
+      id-token: write # Required for OIDC authentication
+      contents: read  # To access repository files if needed
+    uses: ./.github/workflows/infra-rg-shared-tewheke.yaml
+    with:
+      environment: ${{ github.event.inputs.environment }}
+    secrets: inherit
+
+  deploy_uami:
+    permissions:
+      id-token: write # Required for OIDC authentication
+      contents: read  # To access repository files if needed
+    uses: ./.github/workflows/infra-uami-tewheke-workflow.yaml
+    with:
+      environment: ${{ github.event.inputs.environment }}
+    needs: deploy_resource_group  # Ensures this job runs after deploy_resource_group
+    secrets: inherit
+
+  deploy_appi:
+    permissions:
+      id-token: write # Required for OIDC authentication
+      contents: read  # To access repository files if needed
+    uses: ./.github/workflows/infra-appi-tewheke-workflow.yaml
+    with:
+      environment: ${{ github.event.inputs.environment }}
+    needs: deploy_uami
+    secrets: inherit
+
+  deploy_kv:
+    permissions:
+      id-token: write # Required for OIDC authentication
+      contents: read  # To access repository files if needed
+    uses: ./.github/workflows/infra-kv-tewheke-workflow.yaml
+    with:
+      environment: ${{ github.event.inputs.environment }}
+    needs: deploy_appi
+    secrets: inherit
+
+  deploy_sb:
+    permissions:
+      id-token: write # Required for OIDC authentication
+      contents: read  # To access repository files if needed
+    uses: ./.github/workflows/infra-sb-tewheke-workflow.yaml
+    with:
+      environment: ${{ github.event.inputs.environment }}
+    needs: deploy_kv
+    secrets: inherit
+
+  deploy_apim:
+    permissions:
+      id-token: write # Required for OIDC authentication
+      contents: read  # To access repository files if needed
+    uses: ./.github/workflows/infra-apim-tewheke-workflow.yaml
+    with:
+      environment: ${{ github.event.inputs.environment }}
+    needs: deploy_sb
+    secrets: inherit
