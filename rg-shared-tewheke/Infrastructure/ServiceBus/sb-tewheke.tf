@@ -33,11 +33,12 @@ New Resources
 ***************************************************/
 // Service Bus
 resource "azurerm_servicebus_namespace" "servicebus" {
-  name                = "sb-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
-  location            = var.location
-  resource_group_name = local.fullResourceGroupName
-  sku                 = var.serviceBusSku
-  capacity            = 1
+  name                         = "sb-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  location                     = var.location
+  resource_group_name          = local.fullResourceGroupName
+  sku                          = var.serviceBusSku
+  capacity                     = 1
+  premium_messaging_partitions = 1
   network_rule_set {
     default_action                = "Deny"
     public_network_access_enabled = var.serviceBusAllowPublicAccess
