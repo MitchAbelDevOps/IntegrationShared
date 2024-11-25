@@ -33,7 +33,7 @@ New Resources
 resource "azurerm_private_dns_a_record" "gateway_record" {
   name                = "integration-apim-gateway"
   zone_name           = data.azurerm_private_dns_zone.api_gateway_dns_zone.name
-  resource_group_name = var.networkingResourceGroupName
+  resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   ttl                 = 36000
   records             = azurerm_api_management.apim_internal.private_ip_addresses
 
@@ -45,7 +45,7 @@ resource "azurerm_private_dns_a_record" "gateway_record" {
 resource "azurerm_private_dns_a_record" "old_developer_portal_record" {
   name                = "integration-apim-portal"
   zone_name           = data.azurerm_private_dns_zone.old_developer_portal_dns_zone.name
-  resource_group_name = var.networkingResourceGroupName
+  resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   ttl                 = 300
   records             = azurerm_api_management.apim_internal.private_ip_addresses
 
@@ -57,7 +57,7 @@ resource "azurerm_private_dns_a_record" "old_developer_portal_record" {
 resource "azurerm_private_dns_a_record" "new_developer_portal_record" {
   name                = "integration-apim-developer"
   zone_name           = data.azurerm_private_dns_zone.new_developer_portal_dns_zone.name
-  resource_group_name = var.networkingResourceGroupName
+  resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   ttl                 = 300
   records             = azurerm_api_management.apim_internal.private_ip_addresses
 
@@ -69,7 +69,7 @@ resource "azurerm_private_dns_a_record" "new_developer_portal_record" {
 resource "azurerm_private_dns_a_record" "mgmt_portal_record" {
   name                = "integration-apim-management"
   zone_name           = data.azurerm_private_dns_zone.mgmt_portal_dns_zone.name
-  resource_group_name = var.networkingResourceGroupName
+  resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   ttl                 = 300
   records             = azurerm_api_management.apim_internal.private_ip_addresses
 
@@ -81,7 +81,7 @@ resource "azurerm_private_dns_a_record" "mgmt_portal_record" {
 resource "azurerm_private_dns_a_record" "apim_git_record" {
   name                = "integration-apim-scm"
   zone_name           = data.azurerm_private_dns_zone.apim_git_dns_zone.name
-  resource_group_name = var.networkingResourceGroupName
+  resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   ttl                 = 300
   records             = azurerm_api_management.apim_internal.private_ip_addresses
 
