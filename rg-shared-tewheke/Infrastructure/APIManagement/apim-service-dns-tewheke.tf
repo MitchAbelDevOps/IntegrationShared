@@ -3,26 +3,26 @@ Existing Resources
 ***************************************************/
 data "azurerm_private_dns_zone" "api_gateway_dns_zone" {
   name                = "azure-api.net"
-  resource_group_name = var.networkingResourceGroupName
+  resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
 }
 
 data "azurerm_private_dns_zone" "old_developer_portal_dns_zone" {
   name                = "portal.azure-api.net"
-  resource_group_name = var.networkingResourceGroupName
+  resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
 }
 
 data "azurerm_private_dns_zone" "new_developer_portal_dns_zone" {
   name                = "developer.azure-api.net"
-  resource_group_name = var.networkingResourceGroupName
+  resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
 }
 
 data "azurerm_private_dns_zone" "mgmt_portal_dns_zone" {
   name                = "management.azure-api.net"
-  resource_group_name = var.networkingResourceGroupName
+  resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
 }
 data "azurerm_private_dns_zone" "apim_git_dns_zone" {
   name                = "scm.azure-api.net"
-  resource_group_name = var.networkingResourceGroupName
+  resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
 }
 
 /**************************************************
