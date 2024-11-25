@@ -38,7 +38,7 @@ resource "azurerm_servicebus_namespace" "servicebus" {
   resource_group_name = local.fullResourceGroupName
   sku                 = var.serviceBusSku
   network_rule_set {
-    default_action                = "deny"
+    default_action                = "Deny"
     public_network_access_enabled = var.serviceBusAllowPublicAccess
     trusted_services_allowed      = true
     ip_rules                      = var.servceBusIPRules
