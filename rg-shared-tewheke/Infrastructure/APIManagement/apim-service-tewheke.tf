@@ -27,7 +27,7 @@ New Resources
 ***************************************************/
 // API Management Internal Mode
 resource "azurerm_api_management" "apim_internal" {
-  name                 = "apim-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  name                 = "apim-mitchtest-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   location             = var.location
   resource_group_name  = local.fullResourceGroupName
   publisher_name       = var.publisherName
@@ -43,8 +43,8 @@ resource "azurerm_api_management" "apim_internal" {
   identity {
     type = "UserAssigned"
     identity_ids = [
-      "${azurerm_user_assigned_identity.keyvault_secret_reader.id}",
-      "${azurerm_user_assigned_identity.servicebus_readwrite.id}"
+      "${data.azurerm_user_assigned_identity.keyvault_secret_reader.id}",
+      "${data.azurerm_user_assigned_identity.servicebus_readwrite.id}"
     ]
   }
 
