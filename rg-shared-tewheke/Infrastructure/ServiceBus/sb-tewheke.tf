@@ -37,6 +37,7 @@ resource "azurerm_servicebus_namespace" "servicebus" {
   location            = var.location
   resource_group_name = local.fullResourceGroupName
   sku                 = var.serviceBusSku
+  capacity            = 1
   network_rule_set {
     default_action                = "Deny"
     public_network_access_enabled = var.serviceBusAllowPublicAccess
@@ -47,10 +48,10 @@ resource "azurerm_servicebus_namespace" "servicebus" {
 
 // Service Bus Diagnostics
 resource "azurerm_monitor_diagnostic_setting" "servicebus_diagnostics" {
-  name                = "sb-diagnosticlog-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  name               = "sb-diagnosticlog-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   target_resource_id = azurerm_servicebus_namespace.servicebus.id
 
-  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.log_analytics_workspace.id
+  log_analytics_workspace_id     = data.azurerm_log_analytics_workspace.log_analytics_workspace.id
   log_analytics_destination_type = "Dedicated"
 
   enabled_log {
