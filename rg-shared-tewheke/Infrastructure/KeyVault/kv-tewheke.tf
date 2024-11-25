@@ -51,7 +51,7 @@ resource "azurerm_key_vault" "keyvault" {
 // KeyVault Diagnostics
 resource "azurerm_monitor_diagnostic_setting" "keyvault_diagnostics" {
   name                = "kv-diagnosticlog-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
-  target_resource_id = azurerm_key_vault.keyvault
+  target_resource_id = azurerm_key_vault.keyvault.id
 
   log_analytics_workspace_id = data.azurerm_log_analytics_workspace.log_analytics_workspace.id
 
@@ -77,14 +77,14 @@ module "keyvault_private_endpoint" {
 
 // KeyVault role assignment for GitHub service principal
 resource "azurerm_role_assignment" "service_principal_role_assignment" {
-  scope                = azurerm_key_vault.keyvault
+  scope                = azurerm_key_vault.keyvault.id
   role_definition_name = "Key Vault Secrets User"
   principal_id         = var.githubServicePrincipalId
 }
 
 // KeyVault role assignment for User Assigned Managed Identity
 resource "azurerm_role_assignment" "uami_role_assignment" {
-  scope                = azurerm_key_vault.keyvault
+  scope                = azurerm_key_vault.keyvault.id
   role_definition_name = "Key Vault Secrets User"
   principal_id         = data.azurerm_user_assigned_identity.keyvault_secret_reader.principal_id
 }
