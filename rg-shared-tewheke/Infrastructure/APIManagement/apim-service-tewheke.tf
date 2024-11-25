@@ -68,7 +68,7 @@ resource "azurerm_api_management_logger" "apim_logger" {
   name                = "apim-logger"
   resource_group_name = local.fullResourceGroupName
   api_management_name = azurerm_api_management.apim_internal.name
-  resource_id         = azurerm_application_insights.shared_app_insight.id
+  resource_id         = data.azurerm_application_insights.shared_app_insight.id
   application_insights {
     instrumentation_key = "{{appinsights-key}}"
   }
