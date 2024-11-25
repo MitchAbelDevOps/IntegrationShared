@@ -48,7 +48,7 @@ resource "azurerm_servicebus_namespace" "servicebus" {
 // Service Bus Diagnostics
 resource "azurerm_monitor_diagnostic_setting" "servicebus_diagnostics" {
   name                = "sb-diagnosticlog-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
-  target_resource_id = azurerm_servicebus_namespace.servicebus
+  target_resource_id = azurerm_servicebus_namespace.servicebus.id
 
   log_analytics_workspace_id = azurerm_log_analytics_workspace.log_analytics_workspace.id
   log_analytics_destination_type = "Dedicated"
@@ -75,14 +75,14 @@ module "servicebus_private_endpoint" {
 
 // Service Bus Data Sender role assignment for User Assigned Managed Identity
 resource "azurerm_role_assignment" "uami_role_assignment" {
-  scope                = azurerm_servicebus_namespace.servicebus
+  scope                = azurerm_servicebus_namespace.servicebus.id
   role_definition_name = "Azure Service Bus Data Sender"
   principal_id         = data.azurerm_user_assigned_identity.servicebus_readwrite.principal_id
 }
 
 // Service Bus Data Receiver role assignment for User Assigned Managed Identity
 resource "azurerm_role_assignment" "uami_role_assignment" {
-  scope                = azurerm_servicebus_namespace.servicebus
+  scope                = azurerm_servicebus_namespace.servicebus.id
   role_definition_name = "Azure Service Bus Data Receiver"
   principal_id         = data.azurerm_user_assigned_identity.servicebus_readwrite.principal_id
 }
