@@ -28,6 +28,8 @@ data "azurerm_log_analytics_workspace" "log_analytics_workspace" {
   resource_group_name = local.fullResourceGroupName
 }
 
+data "azurerm_client_config" "current" {}
+
 /**************************************************
 New Resources
 ***************************************************/
@@ -51,7 +53,7 @@ resource "azurerm_monitor_diagnostic_setting" "keyvault_diagnostics" {
   name                = "kv-diagnosticlog-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   target_resource_id = azurerm_key_vault.keyvault
 
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.log_analytics_workspace.id
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.log_analytics_workspace.id
 
   enabled_log {
     category_group = "allLogs"
