@@ -2,14 +2,14 @@
 Existing Resources
 ***************************************************/
 data "azurerm_virtual_network" "tewheke_vnet" {
-  name                = "vnet-integration-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  name                = "vnet-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
   resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
 }
 
 data "azurerm_subnet" "private_endpoint_subnet" {
-  name                 = "snet-prep-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  name                 = "snet-${var.resourceSuffix}-${var.environment}-prep-${var.locationSuffix}-01"
   resource_group_name  = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
-  virtual_network_name = "vnet-integration-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  virtual_network_name = "vnet-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
 }
 
 data "azurerm_private_dns_zone" "servicebus_private_dns_zone" {
@@ -24,7 +24,7 @@ data "azurerm_user_assigned_identity" "servicebus_readwrite" {
 
 //TODO Update to the shared LAWS in the security sub when it is provisioned and network routing is in place
 data "azurerm_log_analytics_workspace" "log_analytics_workspace" {
-  name                = "log-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  name                = "log-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
   resource_group_name = local.fullResourceGroupName
 }
 
@@ -33,7 +33,7 @@ New Resources
 ***************************************************/
 // Service Bus
 resource "azurerm_servicebus_namespace" "servicebus" {
-  name                         = "sb-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  name                         = "sb-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
   location                     = var.location
   resource_group_name          = local.fullResourceGroupName
   sku                          = var.serviceBusSku
@@ -47,7 +47,7 @@ resource "azurerm_servicebus_namespace" "servicebus" {
 
 // Service Bus Diagnostics
 resource "azurerm_monitor_diagnostic_setting" "servicebus_diagnostics" {
-  name               = "sb-diagnosticlog-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  name               = "sb-diagnosticlog-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
   target_resource_id = azurerm_servicebus_namespace.servicebus.id
 
   log_analytics_workspace_id     = data.azurerm_log_analytics_workspace.log_analytics_workspace.id

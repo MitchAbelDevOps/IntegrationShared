@@ -2,14 +2,14 @@
 Existing Resources
 ***************************************************/
 data "azurerm_virtual_network" "tewheke_vnet" {
-  name                = "vnet-integration-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  name                = "vnet-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
   resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
 }
 
 data "azurerm_subnet" "private_endpoint_subnet" {
-  name                 = "snet-prep-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  name                 = "snet-${var.resourceSuffix}-${var.environment}-prep-${var.locationSuffix}-01"
   resource_group_name  = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
-  virtual_network_name = "vnet-integration-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  virtual_network_name = "vnet-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
 }
 
 data "azurerm_private_dns_zone" "keyvault_private_dns_zone" {
@@ -24,7 +24,7 @@ data "azurerm_user_assigned_identity" "keyvault_secret_reader" {
 
 //TODO Update to the shared LAWS in the security sub when it is provisioned and network routing is in place
 data "azurerm_log_analytics_workspace" "log_analytics_workspace" {
-  name                = "log-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  name                = "log-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
   resource_group_name = local.fullResourceGroupName
 }
 
@@ -35,7 +35,7 @@ New Resources
 ***************************************************/
 // KeyVault
 resource "azurerm_key_vault" "keyvault" {
-  name                          = "kv-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  name                          = "kv-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
   location                      = var.location
   resource_group_name           = local.fullResourceGroupName
   tenant_id                     = data.azurerm_client_config.current.tenant_id
@@ -50,7 +50,7 @@ resource "azurerm_key_vault" "keyvault" {
 
 // KeyVault Diagnostics
 resource "azurerm_monitor_diagnostic_setting" "keyvault_diagnostics" {
-  name                = "kv-diagnosticlog-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  name                = "kv-diagnosticlog-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
   target_resource_id = azurerm_key_vault.keyvault.id
 
   log_analytics_workspace_id = data.azurerm_log_analytics_workspace.log_analytics_workspace.id
@@ -64,7 +64,7 @@ resource "azurerm_monitor_diagnostic_setting" "keyvault_diagnostics" {
 // NOTE: Deploys in networking resource group, not the shared
 module "keyvault_private_endpoint" {
   source                         = "github.com/MitchAbelDevOps/DevOps//TerraformModules/PrivateEndpoints"
-  name                           = "pep-kv-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  name                           = "pep-kv-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
   location                       = var.location
   resource_group_name            = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   subnet_id                      = data.azurerm_subnet.private_endpoint_subnet.id
@@ -78,7 +78,7 @@ module "keyvault_private_endpoint" {
 // KeyVault role assignment for GitHub service principal
 resource "azurerm_role_assignment" "service_principal_role_assignment" {
   scope                = azurerm_key_vault.keyvault.id
-  role_definition_name = "Key Vault Secrets User"
+  role_definition_name = "Key Vault Secrets Officer"
   principal_id         = var.githubServicePrincipalId
 }
 
@@ -87,11 +87,4 @@ resource "azurerm_role_assignment" "uami_role_assignment" {
   scope                = azurerm_key_vault.keyvault.id
   role_definition_name = "Key Vault Secrets User"
   principal_id         = data.azurerm_user_assigned_identity.keyvault_secret_reader.principal_id
-}
-
-//TEST SECRET
-resource "azurerm_key_vault_secret" "test_secret" {
-  name         = "secret-sauce"
-  value        = "szechuan"
-  key_vault_id = azurerm_key_vault.keyvault.id
 }

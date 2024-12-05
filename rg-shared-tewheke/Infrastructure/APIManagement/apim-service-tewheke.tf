@@ -2,13 +2,13 @@
 Existing Resources
 ***************************************************/
 data "azurerm_subnet" "apim_subnet" {
-  name                 = "snet-apim-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  name                 = "snet-${var.resourceSuffix}-${var.environment}-apim-${var.locationSuffix}-01"
   resource_group_name  = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
-  virtual_network_name = "vnet-integration-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  virtual_network_name = "vnet-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
 }
 
 data "azurerm_application_insights" "shared_app_insight" {
-  name                = "appi-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  name                = "appi-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
   resource_group_name = local.fullResourceGroupName
 }
 
@@ -27,7 +27,7 @@ New Resources
 ***************************************************/
 // API Management Internal Mode
 resource "azurerm_api_management" "apim_internal" {
-  name                 = "apim-mitchtest-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  name                 = "apim-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
   location             = var.location
   resource_group_name  = local.fullResourceGroupName
   publisher_name       = var.publisherName
