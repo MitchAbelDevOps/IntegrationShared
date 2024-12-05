@@ -93,5 +93,5 @@ resource "azurerm_role_assignment" "uami_role_assignment" {
 resource "azurerm_key_vault_secret" "test_secret" {
   name         = "secret-sauce"
   value        = "szechuan"
-  key_vault_id = azurerm_key_vault.example.id
+  key_vault_id = azurerm_key_vault.keyvault.id
 }
