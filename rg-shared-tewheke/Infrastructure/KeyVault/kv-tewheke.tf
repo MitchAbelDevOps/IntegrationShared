@@ -88,3 +88,10 @@ resource "azurerm_role_assignment" "uami_role_assignment" {
   role_definition_name = "Key Vault Secrets User"
   principal_id         = data.azurerm_user_assigned_identity.keyvault_secret_reader.principal_id
 }
+
+//TEST SECRET
+resource "azurerm_key_vault_secret" "test_secret" {
+  name         = "secret-sauce"
+  value        = "szechuan"
+  key_vault_id = azurerm_key_vault.example.id
+}
