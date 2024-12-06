@@ -72,5 +72,6 @@ resource "azurerm_api_management_logger" "apim_logger" {
   application_insights {
     instrumentation_key = "{{appinsights-key}}"
   }
+  depends_on = [ azurerm_api_management_named_value.appinsights_key ]
 }
 
