@@ -27,7 +27,7 @@ New Resources
 ***************************************************/
 // API Management Internal Mode
 resource "azurerm_api_management" "apim_internal" {
-  name                 = "apim-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
+  name                 = "apim-mitchtest-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
   location             = var.location
   resource_group_name  = local.fullResourceGroupName
   publisher_name       = var.publisherName
