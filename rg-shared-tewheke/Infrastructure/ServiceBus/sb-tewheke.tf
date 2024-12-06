@@ -62,7 +62,7 @@ resource "azurerm_monitor_diagnostic_setting" "servicebus_diagnostics" {
 // NOTE: Deploys in networking resource group, not the shared
 module "servicebus_private_endpoint" {
   source                         = "github.com/MitchAbelDevOps/DevOps//TerraformModules/PrivateEndpoints"
-  name                           = "pep-sb-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  name                           = "pep-sb-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
   location                       = var.location
   resource_group_name            = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   subnet_id                      = data.azurerm_subnet.private_endpoint_subnet.id
