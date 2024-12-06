@@ -33,7 +33,7 @@ New Resources
 ***************************************************/
 // Service Bus
 resource "azurerm_servicebus_namespace" "servicebus" {
-  name                         = "sb-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
+  name                         = "sb-mitchtest-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
   location                     = var.location
   resource_group_name          = local.fullResourceGroupName
   sku                          = var.serviceBusSku
