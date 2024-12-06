@@ -35,7 +35,7 @@ New Resources
 ***************************************************/
 // KeyVault
 resource "azurerm_key_vault" "keyvault" {
-  name                          = "kv-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
+  name                          = "kv-mitchtest-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
   location                      = var.location
   resource_group_name           = local.fullResourceGroupName
   tenant_id                     = data.azurerm_client_config.current.tenant_id
