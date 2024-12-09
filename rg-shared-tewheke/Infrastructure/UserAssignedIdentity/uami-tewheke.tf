@@ -19,10 +19,3 @@ resource "azurerm_user_assigned_identity" "servicebus_readwrite" {
   resource_group_name = local.fullResourceGroupName
   location            = var.location
 }
-
-// Azure Container Registry UAMI
-resource "azurerm_user_assigned_identity" "acr_pull" {
-  name                = "uami-acr-pull-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
-  resource_group_name = local.fullResourceGroupName
-  location            = var.location
-}
