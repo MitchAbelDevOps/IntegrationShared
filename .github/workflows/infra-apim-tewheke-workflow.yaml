@@ -57,6 +57,7 @@ jobs:
       root_directory: ${{ inputs.root_directory }}
       sub_directory: ${{ inputs.sub_directory }}
       terraform_state_filename: ${{  inputs.terraform_state_filename }}
+      runner: "self-hosted-dev"
     secrets: inherit
 
   # # Test Environment
