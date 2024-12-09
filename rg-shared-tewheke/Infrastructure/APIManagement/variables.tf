@@ -47,7 +47,7 @@ locals {
 variable "publisherName" {
   description = "The name of the publisher/company"
   type        = string
-  default     = "Mela Peiris"
+  default     = "Melan Peiris"
 }
 
 variable "publisherEmail" {
