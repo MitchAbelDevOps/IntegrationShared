@@ -1,7 +1,7 @@
 /**************************************************
 Existing Resources
 ***************************************************/
-data "azurerm_virtual_network" "tewheke_vnet" {
+data "azurerm_virtual_network" "mitchtest_vnet" {
   name                = "vnet-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
   resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
 }

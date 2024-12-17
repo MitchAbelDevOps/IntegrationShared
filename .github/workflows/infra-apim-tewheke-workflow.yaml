@@ -1,4 +1,4 @@
-name: "infra-apim-tewheke-workflow"
+name: "infra-apim-mitchtest-workflow"
 
 on:
   workflow_call:
@@ -10,17 +10,17 @@ on:
       root_directory:
         description: "Root directory where Terraform config is located"
         required: false
-        default: "rg-shared-tewheke/Infrastructure"
+        default: "rg-shared-mitchtest/Infrastructure"
         type: string
       sub_directory:
         description: "Sub-directory containing resource Terraform files"
         required: false
-        default: "rg-shared-tewheke/Infrastructure/APIManagement"
+        default: "rg-shared-mitchtest/Infrastructure/APIManagement"
         type: string
       terraform_state_filename:
         description: "Name for the tfstate blob to create for this resource"
         required: false
-        default: "apim-tewheke.tfstate"
+        default: "apim-mitchtest.tfstate"
         type: string
   workflow_dispatch:
     inputs:
@@ -31,17 +31,17 @@ on:
       root_directory:
         description: "Root directory where Terraform config is located"
         required: false
-        default: "rg-shared-tewheke/Infrastructure"
+        default: "rg-shared-mitchtest/Infrastructure"
         type: string
       sub_directory:
         description: "Sub-directory containing resource Terraform files"
         required: false
-        default: "rg-shared-tewheke/Infrastructure/APIManagement"
+        default: "rg-shared-mitchtest/Infrastructure/APIManagement"
         type: string
       terraform_state_filename:
         description: "Name for the tfstate blob to create for this resource"
         required: false
-        default: "apim-tewheke.tfstate"
+        default: "apim-mitchtest.tfstate"
         type: string
 
 jobs:
