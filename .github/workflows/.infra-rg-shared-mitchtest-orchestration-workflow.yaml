@@ -35,7 +35,7 @@ jobs:
     uses: ./.github/workflows/infra-appi-mitchtest-workflow.yaml
     with:
       environment: ${{ github.event.inputs.environment }}
-    needs: deploy_uami
+    needs: deploy_resource_group
     secrets: inherit
 
   deploy_kv:
@@ -48,22 +48,22 @@ jobs:
     needs: deploy_appi
     secrets: inherit
 
-  deploy_sb:
-    permissions:
-      id-token: write # Required for OIDC authentication
-      contents: read # To access repository files if needed
-    uses: ./.github/workflows/infra-sb-mitchtest-workflow.yaml
-    with:
-      environment: ${{ github.event.inputs.environment }}
-    needs: deploy_kv
-    secrets: inherit
+  # deploy_sb:
+  #   permissions:
+  #     id-token: write # Required for OIDC authentication
+  #     contents: read # To access repository files if needed
+  #   uses: ./.github/workflows/infra-sb-mitchtest-workflow.yaml
+  #   with:
+  #     environment: ${{ github.event.inputs.environment }}
+  #   needs: deploy_appi
+  #   secrets: inherit
 
-  deploy_apim:
-    permissions:
-      id-token: write # Required for OIDC authentication
-      contents: read # To access repository files if needed
-    uses: ./.github/workflows/infra-apim-mitchtest-workflow.yaml
-    with:
-      environment: ${{ github.event.inputs.environment }}
-    needs: deploy_sb
-    secrets: inherit
+  # deploy_apim:
+  #   permissions:
+  #     id-token: write # Required for OIDC authentication
+  #     contents: read # To access repository files if needed
+  #   uses: ./.github/workflows/infra-apim-mitchtest-workflow.yaml
+  #   with:
+  #     environment: ${{ github.event.inputs.environment }}
+  #   needs: deploy_sb
+  #   secrets: inherit
