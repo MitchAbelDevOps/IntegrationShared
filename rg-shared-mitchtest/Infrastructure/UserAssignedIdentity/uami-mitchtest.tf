@@ -11,6 +11,8 @@ resource "azurerm_user_assigned_identity" "keyvault_secret_reader" {
   name                = "uami-kv-reader-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   resource_group_name = local.fullResourceGroupName
   location            = var.location
+
+  tags = local.tags
 }
 
 // ServiceBus Data ReadWrite UAMI
@@ -18,4 +20,6 @@ resource "azurerm_user_assigned_identity" "servicebus_readwrite" {
   name                = "uami-sb-readwrite-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   resource_group_name = local.fullResourceGroupName
   location            = var.location
+
+  tags = local.tags
 }
