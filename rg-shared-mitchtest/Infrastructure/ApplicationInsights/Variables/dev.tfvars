@@ -1,0 +1,2 @@
+location       = "australiaeast"
+locationSuffix = "aue"
