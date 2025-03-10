@@ -1,3 +1,3 @@
-serviceBusSku = "Premium"
+serviceBusSku               = "Premium"
 serviceBusAllowPublicAccess = false
-servceBusIPRules = []
+servceBusIPRules            = []

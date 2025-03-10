@@ -42,6 +42,14 @@ variable "resourceGroupName" {
 
 locals {
   fullResourceGroupName = "${var.resourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  tags = {
+    "application-name"  = "Mitchtest Networking"
+    "environment"       = var.environment
+    "owner"             = "mitch.abel@adaptiv.nz"
+    "primary-support"   = ""
+    "rc-code"           = ""
+    "secondary-support" = "Adaptiv"
+  }
 }
 
 variable "serviceBusSku" {
