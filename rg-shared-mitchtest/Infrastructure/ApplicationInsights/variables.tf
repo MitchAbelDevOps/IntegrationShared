@@ -37,7 +37,7 @@ variable "resourceGroupName" {
 locals {
   fullResourceGroupName = "${var.resourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   tags = {
-    "application-name"  = "Mitchtest Networking"
+    "application-name"  = "Mitchtest Shared"
     "environment"       = var.environment
     "owner"             = "mitch.abel@adaptiv.nz"
     "primary-support"   = ""

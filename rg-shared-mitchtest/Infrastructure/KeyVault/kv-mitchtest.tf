@@ -22,11 +22,11 @@ data "azurerm_user_assigned_identity" "keyvault_secret_reader" {
   resource_group_name = local.fullResourceGroupName
 }
 
-//TODO Update to the shared LAWS in the security sub when it is provisioned and network routing is in place
-data "azurerm_log_analytics_workspace" "log_analytics_workspace" {
-  name                = "log-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
-  resource_group_name = local.fullResourceGroupName
-}
+# //TODO Update to the shared LAWS in the security sub when it is provisioned and network routing is in place
+# data "azurerm_log_analytics_workspace" "log_analytics_workspace" {
+#   name                = "log-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+#   resource_group_name = local.fullResourceGroupName
+# }
 
 data "azurerm_client_config" "current" {}
 
@@ -46,6 +46,8 @@ resource "azurerm_key_vault" "keyvault" {
     bypass         = "AzureServices"
     default_action = "Deny"
   }
+
+  tags = local.tags
 }
 
 # // KeyVault Diagnostics
