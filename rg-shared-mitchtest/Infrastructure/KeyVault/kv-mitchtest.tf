@@ -2,14 +2,14 @@
 Existing Resources
 ***************************************************/
 data "azurerm_virtual_network" "mitchtest_vnet" {
-  name                = "vnet-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
+  name                = "vnet-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
 }
 
 data "azurerm_subnet" "private_endpoint_subnet" {
-  name                 = "snet-${var.resourceSuffix}-${var.environment}-prep-${var.locationSuffix}-01"
+  name                 = "snet-${var.resourceSuffix}-${var.environment}-prep-${var.locationSuffix}"
   resource_group_name  = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
-  virtual_network_name = "vnet-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
+  virtual_network_name = "vnet-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
 }
 
 data "azurerm_private_dns_zone" "keyvault_private_dns_zone" {
@@ -24,7 +24,7 @@ data "azurerm_user_assigned_identity" "keyvault_secret_reader" {
 
 //TODO Update to the shared LAWS in the security sub when it is provisioned and network routing is in place
 data "azurerm_log_analytics_workspace" "log_analytics_workspace" {
-  name                = "log-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
+  name                = "log-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   resource_group_name = local.fullResourceGroupName
 }
 
@@ -48,23 +48,23 @@ resource "azurerm_key_vault" "keyvault" {
   }
 }
 
-// KeyVault Diagnostics
-resource "azurerm_monitor_diagnostic_setting" "keyvault_diagnostics" {
-  name                = "kv-diagnosticlog-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
-  target_resource_id = azurerm_key_vault.keyvault.id
+# // KeyVault Diagnostics
+# resource "azurerm_monitor_diagnostic_setting" "keyvault_diagnostics" {
+#   name                = "kv-diagnosticlog-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
+#   target_resource_id = azurerm_key_vault.keyvault.id
 
-  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.log_analytics_workspace.id
+#   log_analytics_workspace_id = data.azurerm_log_analytics_workspace.log_analytics_workspace.id
 
-  enabled_log {
-    category_group = "allLogs"
-  }
-}
+#   enabled_log {
+#     category_group = "allLogs"
+#   }
+# }
 
 // KeyVault Private Endpoint
 // NOTE: Deploys in networking resource group, not the shared
 module "keyvault_private_endpoint" {
   source                         = "github.com/MitchAbelDevOps/DevOps//TerraformModules/PrivateEndpoints"
-  name                           = "pep-kv-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
+  name                           = "pep-kv-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   location                       = var.location
   resource_group_name            = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   subnet_id                      = data.azurerm_subnet.private_endpoint_subnet.id
