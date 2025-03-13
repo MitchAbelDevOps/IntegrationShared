@@ -2,14 +2,14 @@
 Existing Resources
 ***************************************************/
 data "azurerm_virtual_network" "mitchtest_vnet" {
-  name                = "vnet-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  name                = "vnet-${var.resourceSuffix}-${var.environmentGroup}-${var.locationSuffix}"
   resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
 }
 
 data "azurerm_subnet" "private_endpoint_subnet" {
-  name                 = "snet-${var.resourceSuffix}-${var.environment}-prep-${var.locationSuffix}"
+  name                 = "snet-${var.resourceSuffix}-${var.environmentGroup}-prep-${var.locationSuffix}"
   resource_group_name  = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
-  virtual_network_name = "vnet-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  virtual_network_name = "vnet-${var.resourceSuffix}-${var.environmentGroup}-${var.locationSuffix}"
 }
 
 data "azurerm_private_dns_zone" "servicebus_private_dns_zone" {

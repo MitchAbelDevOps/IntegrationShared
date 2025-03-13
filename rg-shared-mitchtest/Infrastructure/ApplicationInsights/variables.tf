@@ -21,6 +21,11 @@ variable "environment" {
   description = "Environment"
 }
 
+variable "environmentGroup" {
+  type        = string
+  description = "Environment"
+}
+
 /**************************************************
 Existing Resource Variables
 ***************************************************/
