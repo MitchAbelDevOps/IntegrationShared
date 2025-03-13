@@ -3,7 +3,7 @@ Existing Resources
 ***************************************************/
 data "azurerm_subnet" "apim_subnet" {
   name                 = "snet-${var.resourceSuffix}-${var.environmentGroup}-apim-${var.locationSuffix}-01"
-  resource_group_name  = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  resource_group_name  = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environmentGroup}-${var.locationSuffix}"
   virtual_network_name = "vnet-${var.resourceSuffix}-${var.environmentGroup}-${var.locationSuffix}-01"
 }
 

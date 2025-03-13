@@ -3,18 +3,18 @@ Existing Resources
 ***************************************************/
 data "azurerm_virtual_network" "mitchtest_vnet" {
   name                = "vnet-${var.resourceSuffix}-${var.environmentGroup}-${var.locationSuffix}"
-  resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environmentGroup}-${var.locationSuffix}"
 }
 
 data "azurerm_subnet" "private_endpoint_subnet" {
   name                 = "snet-${var.resourceSuffix}-${var.environmentGroup}-prep-${var.locationSuffix}"
-  resource_group_name  = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  resource_group_name  = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environmentGroup}-${var.locationSuffix}"
   virtual_network_name = "vnet-${var.resourceSuffix}-${var.environmentGroup}-${var.locationSuffix}"
 }
 
 data "azurerm_private_dns_zone" "servicebus_private_dns_zone" {
   name                = "privatelink.servicebus.windows.net"
-  resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environmentGroup}-${var.locationSuffix}"
 }
 
 data "azurerm_user_assigned_identity" "servicebus_readwrite" {
@@ -66,7 +66,7 @@ module "servicebus_private_endpoint" {
   source                         = "github.com/MitchAbelDevOps/DevOps//TerraformModules/PrivateEndpoints"
   name                           = "pep-sb-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   location                       = var.location
-  resource_group_name            = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  resource_group_name            = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environmentGroup}-${var.locationSuffix}"
   subnet_id                      = data.azurerm_subnet.private_endpoint_subnet.id
   private_connection_resource_id = azurerm_servicebus_namespace.servicebus.id
   is_manual_connection           = false

@@ -3,18 +3,18 @@ Existing Resources
 ***************************************************/
 data "azurerm_virtual_network" "mitchtest_vnet" {
   name                = "vnet-${var.resourceSuffix}-${var.environmentGroup}-${var.locationSuffix}"
-  resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environmentGroup}-${var.locationSuffix}"
 }
 
 data "azurerm_subnet" "private_endpoint_subnet" {
   name                 = "snet-${var.resourceSuffix}-${var.environmentGroup}-prep-${var.locationSuffix}"
-  resource_group_name  = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  resource_group_name  = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environmentGroup}-${var.locationSuffix}"
   virtual_network_name = "vnet-${var.resourceSuffix}-${var.environmentGroup}-${var.locationSuffix}"
 }
 
 data "azurerm_private_dns_zone" "keyvault_private_dns_zone" {
   name                = "privatelink.vaultcore.azure.net"
-  resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  resource_group_name = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environmentGroup}-${var.locationSuffix}"
 }
 
 data "azurerm_user_assigned_identity" "keyvault_secret_reader" {
@@ -68,7 +68,7 @@ module "keyvault_private_endpoint" {
   source                         = "github.com/MitchAbelDevOps/DevOps//TerraformModules/PrivateEndpoints"
   name                           = "pep-kv-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   location                       = var.location
-  resource_group_name            = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  resource_group_name            = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environmentGroup}-${var.locationSuffix}"
   subnet_id                      = data.azurerm_subnet.private_endpoint_subnet.id
   private_connection_resource_id = azurerm_key_vault.keyvault.id
   is_manual_connection           = false
