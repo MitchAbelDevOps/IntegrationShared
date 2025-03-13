@@ -7,7 +7,7 @@ data "azurerm_virtual_network" "mitchtest_vnet" {
 }
 
 data "azurerm_subnet" "private_endpoint_subnet" {
-  name                 = "snet-${var.resourceSuffix}-${var.environmentGroup}-prep-${var.locationSuffix}"
+  name                 = "snet-${var.resourceSuffix}-${var.environmentGroup}-pep-${var.locationSuffix}"
   resource_group_name  = "${var.networkingResourceGroupName}-${var.resourceSuffix}-${var.environmentGroup}-${var.locationSuffix}"
   virtual_network_name = "vnet-${var.resourceSuffix}-${var.environmentGroup}-${var.locationSuffix}"
 }
