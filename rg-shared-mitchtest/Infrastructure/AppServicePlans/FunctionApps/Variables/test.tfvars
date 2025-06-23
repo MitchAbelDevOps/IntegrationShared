@@ -1,0 +1,1 @@
+aspSkuSize = "EP1"
