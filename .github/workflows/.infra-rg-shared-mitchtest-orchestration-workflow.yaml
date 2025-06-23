@@ -45,7 +45,7 @@ jobs:
     uses: ./.github/workflows/infra-asp-logicapps-mitchtest-workflow.yaml
     with:
       environment: ${{ github.event.inputs.environment }}
-    needs: deploy_resource_group
+    needs: deploy_actiongroups
     secrets: inherit
 
   deploy_asp_function:
@@ -55,7 +55,7 @@ jobs:
     uses: ./.github/workflows/infra-asp-functionapps-mitchtest-workflow.yaml
     with:
       environment: ${{ github.event.inputs.environment }}
-    needs: deploy_resource_group
+    needs: deploy_actiongroups
     secrets: inherit
 
   deploy_kv:
@@ -65,7 +65,7 @@ jobs:
     uses: ./.github/workflows/infra-kv-mitchtest-workflow.yaml
     with:
       environment: ${{ github.event.inputs.environment }}
-    needs: deploy_appi
+    needs: deploy_uami
     secrets: inherit
 
   deploy_sb:
@@ -75,7 +75,7 @@ jobs:
     uses: ./.github/workflows/infra-sb-mitchtest-workflow.yaml
     with:
       environment: ${{ github.event.inputs.environment }}
-    needs: deploy_appi
+    needs: deploy_uami
     secrets: inherit
 
   deploy_appi:
