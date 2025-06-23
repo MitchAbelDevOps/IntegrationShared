@@ -51,7 +51,7 @@ jobs:
     permissions:
       id-token: write # Required for OIDC authentication
       contents: read # To access repository files if needed
-    uses: MOJNZ-Default/azure-devops-resources/.github/workflows/deploy-resource.yaml@main
+    uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
     with:
       environment: "dev"
       root_directory: ${{ inputs.root_directory }}
@@ -60,62 +60,62 @@ jobs:
       runner: "self-hosted-npe"
     secrets: inherit
 
-  # Test Environment
-  test:
-    if: ${{ inputs.environment == 'test' }}
-    permissions:
-      id-token: write # Required for OIDC authentication
-      contents: read  # To access repository files if needed
-    uses: MOJNZ-Default/azure-devops-resources/.github/workflows/deploy-resource.yaml@main
-    with:
-      environment: 'test'
-      root_directory: ${{ inputs.root_directory }}
-      sub_directory: ${{ inputs.sub_directory }}
-      terraform_state_filename: "${{ inputs.terraform_state_prefix }}.${{ inputs.environment }}.tfstate"
-      runner: "self-hosted-npe"
-    secrets: inherit
+  # # Test Environment
+  # test:
+  #   if: ${{ inputs.environment == 'test' }}
+  #   permissions:
+  #     id-token: write # Required for OIDC authentication
+  #     contents: read  # To access repository files if needed
+  #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
+  #   with:
+  #     environment: 'test'
+  #     root_directory: ${{ inputs.root_directory }}
+  #     sub_directory: ${{ inputs.sub_directory }}
+  #     terraform_state_filename: "${{ inputs.terraform_state_prefix }}.${{ inputs.environment }}.tfstate"
+  #     runner: "self-hosted-npe"
+  #   secrets: inherit
 
-  # Staging Environment
-  staging:
-    if: ${{ inputs.environment == 'stg' }}
-    permissions:
-      id-token: write # Required for OIDC authentication
-      contents: read  # To access repository files if needed
-    uses: MOJNZ-Default/azure-devops-resources/.github/workflows/deploy-resource.yaml@main
-    with:
-      environment: 'stg'
-      root_directory: ${{ inputs.root_directory }}
-      sub_directory: ${{ inputs.sub_directory }}
-      terraform_state_filename: "${{ inputs.terraform_state_prefix }}.${{ inputs.environment }}.tfstate"
-      runner: "self-hosted-ppe"
-    secrets: inherit
+  # # Staging Environment
+  # staging:
+  #   if: ${{ inputs.environment == 'stg' }}
+  #   permissions:
+  #     id-token: write # Required for OIDC authentication
+  #     contents: read  # To access repository files if needed
+  #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
+  #   with:
+  #     environment: 'stg'
+  #     root_directory: ${{ inputs.root_directory }}
+  #     sub_directory: ${{ inputs.sub_directory }}
+  #     terraform_state_filename: "${{ inputs.terraform_state_prefix }}.${{ inputs.environment }}.tfstate"
+  #     runner: "self-hosted-ppe"
+  #   secrets: inherit
 
-  # Pre-Prod Environment
-  pprod:
-    if: ${{ inputs.environment == 'pwe' }}
-    permissions:
-      id-token: write # Required for OIDC authentication
-      contents: read  # To access repository files if needed
-    uses: MOJNZ-Default/azure-devops-resources/.github/workflows/deploy-resource.yaml@main
-    with:
-      environment: 'pwe'
-      root_directory: ${{ inputs.root_directory }}
-      sub_directory: ${{ inputs.sub_directory }}
-      terraform_state_filename: "${{ inputs.terraform_state_prefix }}.${{ inputs.environment }}.tfstate"
-      runner: "self-hosted-ppe"
-    secrets: inherit
+  # # Pre-Prod Environment
+  # pprod:
+  #   if: ${{ inputs.environment == 'pwe' }}
+  #   permissions:
+  #     id-token: write # Required for OIDC authentication
+  #     contents: read  # To access repository files if needed
+  #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
+  #   with:
+  #     environment: 'pwe'
+  #     root_directory: ${{ inputs.root_directory }}
+  #     sub_directory: ${{ inputs.sub_directory }}
+  #     terraform_state_filename: "${{ inputs.terraform_state_prefix }}.${{ inputs.environment }}.tfstate"
+  #     runner: "self-hosted-ppe"
+  #   secrets: inherit
 
-  # Prod Environment
-  prod:
-    if: ${{ inputs.environment == 'prd' }}
-    permissions:
-      id-token: write # Required for OIDC authentication
-      contents: read  # To access repository files if needed
-    uses: MOJNZ-Default/azure-devops-resources/.github/workflows/deploy-resource.yaml@main
-    with:
-      environment: 'prd'
-      root_directory: ${{ inputs.root_directory }}
-      sub_directory: ${{ inputs.sub_directory }}
-      terraform_state_filename: "${{ inputs.terraform_state_prefix }}.${{ inputs.environment }}.tfstate"
-      runner: "self-hosted-prd"
-    secrets: inherit
+  # # Prod Environment
+  # prod:
+  #   if: ${{ inputs.environment == 'prd' }}
+  #   permissions:
+  #     id-token: write # Required for OIDC authentication
+  #     contents: read  # To access repository files if needed
+  #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
+  #   with:
+  #     environment: 'prd'
+  #     root_directory: ${{ inputs.root_directory }}
+  #     sub_directory: ${{ inputs.sub_directory }}
+  #     terraform_state_filename: "${{ inputs.terraform_state_prefix }}.${{ inputs.environment }}.tfstate"
+  #     runner: "self-hosted-prd"
+  #   secrets: inherit
