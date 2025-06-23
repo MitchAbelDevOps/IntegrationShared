@@ -1,11 +1,6 @@
 /**************************************************
 Existing Resources
 ***************************************************/
-data "azurerm_user_assigned_identity" "sa_blob_reader" {
-  name                = "uami-sa-blob-reader-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
-  resource_group_name = local.fullResourceGroupName
-}
-
 data "azurerm_subscription" "current" {}
 
 /**************************************************
