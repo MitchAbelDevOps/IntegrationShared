@@ -9,7 +9,3 @@ mitchtestOperationsEmailReceivers = [
   }
   // Add more email receivers as needed
 ]
-// TEMP
-location          = "australiaeast"
-locationSuffix    = "aue"
-locationSuffixAlt = "nzn"

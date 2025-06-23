@@ -11,13 +11,6 @@ variable "locationSuffix" {
   description = "The Azure location in which the deployment is happening"
 }
 
-// TEMP
-variable "locationSuffixAlt" {
-  type        = string
-  description = "Alternate location suffix for split deployment"
-  default     = "aue"
-}
-
 variable "resourceSuffix" {
   type        = string
   description = "A suffix for naming"

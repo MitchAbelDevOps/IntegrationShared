@@ -33,10 +33,6 @@ variable "resourceGroupName" {
   default     = "rg-shared"
 }
 
-variable "createSecondaryRG" {
-  type = bool
-}
-
 locals {
   fullResourceGroupName = "${var.resourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   tags = {

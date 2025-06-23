@@ -1,2 +1,0 @@
-location       = "australiaeast"
-locationSuffix = "aue"
